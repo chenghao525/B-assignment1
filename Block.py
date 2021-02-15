@@ -5,13 +5,15 @@ class Block:
         self.tx = tx
         self.prev = prev
         self.nonce = nonce
-        self.proofOfWork = proofOfWork
+        self.proofOfWork = self.__hashing()
 
     
-    def hashing(self):
+    def __hashing(self):
         key = hashlib.sha256()
         key.update(str(self.tx).encode('utf-8'))
         key.update(str(self.prev).encode('utf-8'))
         key.update(str(self.nonce).encode('utf-8'))
         return key.hexdigest()
  
+
+    
