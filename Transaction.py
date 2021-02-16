@@ -4,6 +4,7 @@ class TxOutput:
     def __init__(self, value = None, pubkey = None, outputJsonObj = None):
         if outputJsonObj:
             self.__getWithJson(outputJsonObj)
+            return
         self.value = value
         self.pubkey = pubkey
 
@@ -15,19 +16,21 @@ class TxInput:
     def __init__(self, number = None, output : TxOutput = None, inputJsonObj = None):
         if inputJsonObj:
             self.__getWithJson(inputJsonObj)
+            return
         self.number = number
         self.output = TxOutput(output.value, output.pubkey)
 
 
     def __getWithJson(self, jsonObj):
         self.number = jsonObj['number']
-        self.output = TxOutput(jsonObj=jsonObj['output'])
+        self.output = TxOutput(outputJsonObj=jsonObj['output'])
 
 
 class Transaction:
     def __init__(self, txNumber = None, inputList : List[TxInput] = None, outputList : List[TxOutput] = None, sig = None, jsonObj = None):
         if jsonObj:
             self.__getTxWithJson(jsonObj)
+            return
         self.txNumber = txNumber
         self.inputList = inputList
         self.outputList = outputList
@@ -45,6 +48,7 @@ class Transaction:
 
         for txOutput in jsonObj['output']:
             self.outputList.append(TxOutput(outputJsonObj=txOutput))
+
 
 
 
