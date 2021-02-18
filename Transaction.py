@@ -1,4 +1,5 @@
 from typing import List
+from hashlib import sha256
 
 class TxOutput:
     def __init__(self, value = None, pubkey = None, outputJsonObj = None):
@@ -48,6 +49,20 @@ class Transaction:
 
         for txOutput in jsonObj['output']:
             self.outputList.append(TxOutput(outputJsonObj=txOutput))
+        
+    def hashingTxNumber(self):
+        hashList = []
+        hashList = self.inputList + self.outputList
+        hashList.append(self.sig)
+        return sha256(''.join(itemList).encode('utf-8')).hexdigest()
+
+    def toString(self):
+        outputList = [str(self.txNumber)]
+        outputList += self.inputList + self.outputList
+        outputList.append(self.sig)
+        return ''.join(outputList)
+
+
 
 
 

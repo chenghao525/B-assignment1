@@ -36,7 +36,7 @@ class Driver:
                 if len(self.globalUnverifiedTxPool) == 0:
                     break
             for tx in self.globalUnverifiedTxPool:
-                node.verifyTranscation(tx)
+                node.miningBlock(tx)
                 self.globalUnverifiedTxPool.remove(tx)
         node.writeToFile()
             

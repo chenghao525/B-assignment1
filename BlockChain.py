@@ -1,8 +1,9 @@
 import json
 import logging
+from typing import List
 from hashlib import sha256 as H
 from Transaction import *
-from Block import Block
+from Block import *
 
 
 logging.basicConfig(filename='main.log', filemode='w', level=logging.INFO, format='%(name)s - %(levelname)s - %(message)s')
@@ -10,13 +11,13 @@ logger = logging.getLogger("my-logger")
 logger.handlers = []
 
 class BlockChain:
-    def __init__(self):
+    def __init__(self, genesisBlock : Block = None):
         """
         Constructor for the `Blockchain` class.
         """
         logger.info("Initilizing BlockChain....")
-        self.chain = []
-        # self.createGenesisBlock()
+        self.chain : List[Block] = None
+        self.chain.append(genesisBlock)
         logger.info('Initilizing done!')
 
     @staticmethod
@@ -49,7 +50,7 @@ class BlockChain:
         previous_hash match with the hash of last block).
         """
         # if block.prev != self.last_block.
-        print("CC")
+        return None
 
 
 
