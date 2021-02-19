@@ -9,7 +9,6 @@ import json
 
 
 class Driver:
-
     def __init__(self):
         self.nodeList = []
         self.globalUnverifiedTxPool : Transaction = []
@@ -31,13 +30,16 @@ class Driver:
     def nodeMining(self, node):
         while True:
             #TODO: how to check if no more tx
-            if len(self.globalUnverifiedTxPool) == 0:
+            if len(self.globalUnverifiedTxPool) == 0 and len(node.globalUnverifiedTxPool) == 0:
                 sleep(1)
                 if len(self.globalUnverifiedTxPool) == 0:
                     break
             for tx in self.globalUnverifiedTxPool:
-                node.miningBlock(tx)
+                node.globalUnverifiedTxPool.append(tx)
                 self.globalUnverifiedTxPool.remove(tx)
+            for tx in node.globalUnverifiedTxPool:
+                node.miningBlock(tx)
+                node.globalUnverifiedTxPool.remove(tx)
         node.writeToFile()
             
     

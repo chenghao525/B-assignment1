@@ -11,12 +11,13 @@ logger = logging.getLogger("my-logger")
 logger.handlers = []
 
 class BlockChain:
-    def __init__(self, genesisBlock : Block = None):
+    #TODO: should implement a tree?
+    def __init__(self):
         """
         Constructor for the `Blockchain` class.
         """
         logger.info("Initilizing BlockChain....")
-        self.chain : List[Block] = None
+        self.chain : List[blockLinkedNode] = None
         self.chain.append(genesisBlock)
         logger.info('Initilizing done!')
 
@@ -44,13 +45,16 @@ class BlockChain:
     def last_block(self):
         return self.chain[-1]
 
-    def add_block(self, block, proof):
+    def addBlock(self, newBlockNode):
         """
         A function that adds the block to the chain after verification (proof is valid and 
         previous_hash match with the hash of last block).
         """
-        # if block.prev != self.last_block.
-        return None
+        oldTailBlockNode = self.last_block
+        self.chain.append(newBlockLinkedNode)
+        #TODO: Get longest chain, eliminate the shorter ones
+        
+
 
 
 
