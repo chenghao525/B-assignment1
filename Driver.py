@@ -25,6 +25,8 @@ class Driver:
             self.nodeList.append(node)
             nodeThread = Thread(target=self.nodeMining, args=(node,))
             nodeThread.start()
+        for node in self.nodeList:
+            node.miningNodeList += self.nodeList
 
     # TODO: implement node minig functionality
     def nodeMining(self, node):

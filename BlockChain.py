@@ -50,9 +50,35 @@ class BlockChain:
         A function that adds the block to the chain after verification (proof is valid and 
         previous_hash match with the hash of last block).
         """
+        txBroadcastList = []
         oldTailBlockNode = self.last_block
         self.chain.append(newBlockLinkedNode)
-        #TODO: Get longest chain, eliminate the shorter ones
+        if newBlockNode.height > self.oldTailBlockNode.height and newBlockNode.prevBlockNode != oldTailBlockNode:
+            tempNode = oldTailBlockNode
+            forkingNode = self.__retrieveForking(oldTailBlockNode, newBlockNode)
+            while tempNode != forkingNode:
+                txBroadcastList.append(tempNode.curBlockNode.tx)
+                tempNode = tempNode.prevBlockNode
+        return txBroadcastList
+
+
+    def __retrieveForking(self, node1: blockLinkedNode, node2: blockLinkedNode):
+        n1 = node1
+        n2 = node2
+
+        if not n1 or not p2:
+            return None
+        while n1 != n2:
+            n1 = n1.prevBlockNode
+            n2 = n2.prevBlockNode
+            if n1 == n2:
+                return n1
+            if not n1:
+                n1 = node2
+            if not n2:
+                n2 = node1
+        return n1
+
         
 
 
