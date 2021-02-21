@@ -1,4 +1,5 @@
 import hashlib
+from Transaction import *
 
 class Block:
     def __init__(self,tx = None, prev = None, nonce = None, proofOfWork = None):
