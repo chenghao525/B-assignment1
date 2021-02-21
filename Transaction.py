@@ -8,7 +8,10 @@ class TxOutput:
             return
         self.value = value
         self.pubkey = pubkey
-
+        
+    def isEqual(self, txOutput) :
+        return txOutput.value == self.value and txOutput.pubKey == self.pubKey        
+    
     def __getWithJson(self, jsonObj):
         self.value = int(jsonObj['value'])
         self.pubkey = jsonObj['pubkey'].encode('utf-8')
@@ -20,7 +23,9 @@ class TxInput:
             return
         self.number = number
         self.output = TxOutput(output.value, output.pubkey)
-
+        
+    def isEqual(self, txInput):
+        return self.number == txInput.number and self.output.isEqual(txInput.output)       
 
     def __getWithJson(self, jsonObj):
         self.number = jsonObj['number']
