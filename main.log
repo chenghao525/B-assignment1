@@ -18,5 +18,34 @@ my-logger - INFO - Initilizing done!
 my-logger - INFO - Initilizing BlockChain....
 my-logger - INFO - Initilizing done!
 my-logger - ERROR - Node 1 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 4 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 3 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 7 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 6 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 8 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 2 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 5 :Tx Verification Failed! Number hash is not correct
 my-logger - ERROR - Node 1 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 6 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 8 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 7 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 2 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 3 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 4 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 5 :Tx Verification Failed! Number hash is not correct
 my-logger - ERROR - Node 1 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 6 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 5 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 4 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 2 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 7 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 8 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 3 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 1 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 6 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 4 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 5 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 7 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 8 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 2 :Tx Verification Failed! Number hash is not correct
+my-logger - ERROR - Node 3 :Tx Verification Failed! Number hash is not correct

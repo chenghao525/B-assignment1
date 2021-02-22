@@ -22,6 +22,7 @@ class Node:
         self.blockChain = BlockChain(genesisBlock)
         self.blockQueue = Queue()
         self.globalUnverifiedTxPool : List[Transaction] = []
+        self.alreadyMinedTx : List[Transaction] = []
         self.miningDifficulty = 0x07FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
     def miningBlock(self, tx : Transaction):
@@ -190,6 +191,7 @@ class Node:
             if tempNode != self:
                 for tx in txBroadcastList:
                     tempNode.globalUnverifiedTxPool.append(tx)
+                    tempNode.alreadyMinedTx.remove(tx)
     
     def getJson(self):
         jsonOut = {"Blocks": []}
