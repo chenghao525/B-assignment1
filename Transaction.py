@@ -67,11 +67,17 @@ class Transaction:
             self.outputList.append(TxOutput(outputJsonObj=txOutput))
         
     def hashingTxNumber(self):
-        hashList = self.toString()
+        hashList = []
+        for tx in self.inputList:
+            hashList.append(tx.toString())
+        for tx in self.outputList:
+            hashList.append(tx.toString())
+        hashList.append(self.sig)
+    
         return sha256(''.join(hashList).encode('utf-8')).hexdigest()
 
     def toString(self):
-        resList = []
+        resList = [str(self.txNumber)]
         for tx in self.inputList:
             resList.append(tx.toString())
         for tx in self.outputList:
@@ -79,7 +85,7 @@ class Transaction:
         resList.append(self.sig)
         return ''.join(resList)
 
-    def getJsonDict(self) -> dict:
+    def getJson(self) -> dict:
         jsonOut = {"number": self.txNumber}
 
         inputList = []
@@ -95,10 +101,6 @@ class Transaction:
             outputList.append(TxOutputObj)
         jsonOut["output"] = outputList
         jsonOut["sig"] = self.sig
-        
-
-    def getJson(self):
-        jsonOut = self.getJsonDict()
         return json.dumps(jsonOut, indent=4)
 
 

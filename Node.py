@@ -53,8 +53,10 @@ class Node:
         while not self.blockQueue.empty():
             newBlock = self.blockQueue.get()
             if not self.__verifyBlockPOW(newBlock):
+                logger.error("Verification Failed! Block POW not match for blocks from other node")
                 continue
             if not self.verifyTranscation(newBlock.tx):
+                logger.error("Verification Failed! Transcation not valid for blocks from other node")
                 continue
             for blockLinkedNode in self.blockChain.chain:
                 if blockLinkedNode.hashing() == newBlock.prev:
