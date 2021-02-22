@@ -12,13 +12,14 @@ logger.handlers = []
 
 class BlockChain:
     #TODO: should implement a tree?
-    def __init__(self):
+    def __init__(self, genesisBlock):
         """
         Constructor for the `Blockchain` class.
         """
         logger.info("Initilizing BlockChain....")
-        self.chain : List[blockLinkedNode] = None
-        self.chain.append(genesisBlock)
+        self.chain : List[blockLinkedNode] = []
+        genesisLinkedBlock = BlockLinkedNode(None, genesisBlock, 1)
+        self.chain.append(genesisLinkedBlock)
         logger.info('Initilizing done!')
 
     @staticmethod
@@ -63,7 +64,7 @@ class BlockChain:
         return txBroadcastList
 
 
-    def __retrieveForking(self, node1: blockLinkedNode, node2: blockLinkedNode):
+    def __retrieveForking(self, node1: BlockLinkedNode, node2: BlockLinkedNode):
         n1 = node1
         n2 = node2
 

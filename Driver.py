@@ -12,7 +12,7 @@ class Driver:
     def __init__(self):
         self.nodeList = []
         self.globalUnverifiedTxPool : Transaction = []
-        myMVB = BlockChain()
+        myMVB = BlockChain(None)
         # create genesis Block via static method
         self.genesisBlock = BlockChain.createGenesisBlock(BlockChain)
         self.__startNodesThread(8)

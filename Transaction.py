@@ -1,5 +1,7 @@
+import json
 from typing import List
 from hashlib import sha256
+
 
 class TxOutput:
     def __init__(self, value = None, pubkey = None, outputJsonObj = None):
@@ -10,7 +12,7 @@ class TxOutput:
         self.pubkey = pubkey
         
     def isEqual(self, txOutput) :
-        return txOutput.value == self.value and txOutput.pubKey == self.pubKey    
+        return txOutput.value == self.value and txOutput.pubKey == self.pubkey    
     
     
     def __getWithJson(self, jsonObj):
@@ -69,13 +71,32 @@ class Transaction:
         return sha256(''.join(hashList).encode('utf-8')).hexdigest()
 
     def toString(self):
-        outputList = [str(self.txNumber)]
+        resList = [str(self.txNumber)]
         for tx in self.inputList:
-            outputList.append(tx.toString)
+            resList.append(tx.toString())
         for tx in self.outputList:
-            outputList.append(tx.toString)
-        outputList.append(self.sig)
-        return ''.join(outputList)
+            resList.append(tx.toString())
+        resList.append(self.sig)
+        return ''.join(resList)
+
+    def getJson(self):
+        jsonOut = {"number": self.txNumber}
+
+        inputList = []
+        for txInput in self.inputList:
+            TxInputObj = {"number": txInput.number,
+                           "output": {"value": txInput.output.value, "pubkey": txInput.output.pubkey.decode('utf-8')}}
+            inputList.append(TxInputObj)
+        jsonOut["input"] = inputList
+
+        outputList = []
+        for txOutput in self.outputList:
+            TxOutputObj = {"value": txOutput.value, "pubkey": txOutput.pubkey.decode('utf-8')}
+            outputList.append(TxOutputObj)
+        jsonOut["output"] = outputList
+        jsonOut["sig"] = self.sig
+        return json.dumps(jsonOut, indent=4)
+
 
 
 

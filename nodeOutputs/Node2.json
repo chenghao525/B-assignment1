@@ -1,0 +1,10 @@
+{
+    "Blocks": [
+        {
+            "tx": "{\n    \"number\": 0,\n    \"input\": [],\n    \"output\": [\n        {\n            \"value\": 1000,\n            \"pubkey\": \"0a041b9462caa4a31bac3567e0b6e6fd9100787db2ab433d96f6d178cabfce90\"\n        },\n        {\n            \"value\": 1000,\n            \"pubkey\": \"6025d18fe48abd45168528f18a82e265dd98d421a7084aa09f61b341703901a3\"\n        }\n    ],\n    \"sig\": \"eafaeb86b9a60e8906e42edabcbba72f89336e872f1b3f426d86d30703d878c1\"\n}",
+            "prev": "faab8b0e91fca936ccbf200dd56b6fdf9d10039d43d02fd8a1c05a8a5ddc40e0",
+            "nonce": "0",
+            "pow": "c8473ae778851fa29db1618dee56de1777e4e28b6993ea722c4a6627e88ae3ef"
+        }
+    ]
+}

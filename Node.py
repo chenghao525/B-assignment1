@@ -1,8 +1,10 @@
+import json
 from Block import *
 from Transaction import *
 from typing import List
 from hashlib import sha256
 from BlockChain import *
+from queue import Queue
 import numpy as np
 
 from nacl.signing import VerifyKey
@@ -58,7 +60,7 @@ class Node:
                     foundPrevBlock = blockLinkedNode
                     break
             if not foundPrevBlock:
-                log.error("Verification Failed! Prev hash not match for blocks from other node")
+                logger.error("Verification Failed! Prev hash not match for blocks from other node")
                 continue
             
             newBlockLinkedNode = BlockLinkedNode(foundPrevBlock, newBlock, foundPrevBlock.height + 1)
@@ -70,7 +72,7 @@ class Node:
         blockPOW = sha256(blockInfo.encode('utf-8')).hexdigest()
 
         if str(blockPOW) != newBlock.pow:
-            log.error("In Node " + self.id + " :" + "POW does not match")
+            logger.error("In Node " + self.id + " :" + "POW does not match")
             return false
         return True
 
@@ -87,7 +89,7 @@ class Node:
         prevBlock = self.blockChain.last_block
         while prevBlock:
             if tx.txNumber == prevBlock.curBlockNode.tx.txNumber:
-                log.error("Verification Failed! Tx is already on the blockchain")
+                logger.error("Verification Failed! Tx is already on the blockchain")
                 return False
             prevBlock = prevBlock.prevBlockNode
         return True
@@ -99,7 +101,7 @@ class Node:
         TxNumHash = self.verifyTxNumberHash(tx) # number hash is correct
         TxInNum = self.verifyTxInputsNumber(tx) # each number in the input exists as a transaction already on the blockchain, each output in the input actually exists in the named transaction
         TxPKsig = self.verifyTxPubKeyAndSig(tx) # each output in the input has the same public key, and that key can verify the signature on this transaction
-        TxDS = verifyTxDoubleSpend(tx) # that public key is the most recent recipient of that output (i.e. not a double-spend)
+        TxDS = self.verifyTxDoubleSpend(tx) # that public key is the most recent recipient of that output (i.e. not a double-spend)
         TxIOSum = self.verifyTxInOutSum(tx) # the sum of the input and output values are equal
         return TxNumHash and TxInNum and TxPKsig and TxDS and TxIOSum
 
@@ -110,7 +112,7 @@ class Node:
         if tx.txNumber != '' and now_Hash == num_Hash:
             return True
         else:
-            log.error("Node " + self.id + " :" + "Tx Verification Failed! Number hash is not correct")
+            logger.error("Node " + str(self.id) + " :" + "Tx Verification Failed! Number hash is not correct")
 
     def verifyTxInputsNumber(self, tx: Transaction):
         #  each number in the input exists as a transaction already on the blockchain
@@ -134,7 +136,7 @@ class Node:
         if validInput_count == len(tx.inputList):
             return True
         else:
-            log.error("Node " + self.id + " :" + "Tx Verification Failed! Inputs are not correct")
+            logger.error("Node " + str(self.id) + " :" + "Tx Verification Failed! Inputs are not correct")
 
     def verifyTxPubKeyAndSig(self, tx: Transaction):
         #  each output in the input has the same public key, and that key can be used to verify the signature of the transaction
@@ -142,8 +144,8 @@ class Node:
             return False
         sender_PublicKey: bytes = tx.inputList[0].output.pubkey
         for Input in tx.inputList:
-            if Input.output.pubKey != sender_PublicKey:
-                log.error("Node " + self.id + " :" + "Tx Verification Failed! Input pubKey is not unique")
+            if Input.output.pubkey != sender_PublicKey:
+                logger.error("Node " + self.id + " :" + "Tx Verification Failed! Input pubkey is not unique")
                 return False
 
         verifyKey = VerifyKey(sender_PublicKey, HexEncoder)
@@ -151,7 +153,7 @@ class Node:
             verifyKey.verify(tx.sig.encode('utf-8'), encoder=HexEncoder)
             return True
         except BadSignatureError:
-            log.error("Node " + self.id + " :" + "Tx Verification Failed! Signature verification failed")
+            logger.error("Node " + self.id + " :" + "Tx Verification Failed! Signature verification failed")
             return False
     
     def verifyTxDoubleSpend(self, tx:Transaction):
@@ -160,19 +162,19 @@ class Node:
             prevBlock = self.blockChain.last_block
             while prevBlock:
                 for pBlockTxInput in prevBlock.curBlockNode.tx.inputList:
-                    if Input.isEqual(pBlockTxInput)
-                        log.error("Node " + self.id + " :" + "Tx Verification Failed! Double spend detected")
+                    if Input.isEqual(pBlockTxInput):
+                        logger.error("Node " + self.id + " :" + "Tx Verification Failed! Double spend detected")
                         return False
                 prevBlock = prevBlock.prevBlockNode
             return True
 
-    def __verifyTxInOutSum(self, tx: Transaction) :
+    def verifyTxInOutSum(self, tx: Transaction) :
         #  the sum of the input and output values are equal
         inSum, outSum = 0, 0
         inSum = np.sum([x.output.value for x in tx.inputList])
-        outSum = np.sum([y.value for y in tx.outputList]])
+        outSum = np.sum([y.value for y in tx.outputList])
         if not inSum == outSum:
-            log.error("Node " + self.id + " :" + "Tx Verification Failed! Tx Inputs val sum is not equal to outputs sum")
+            logger.error("Node " + self.id + " :" + "Tx Verification Failed! Tx Inputs val sum is not equal to outputs sum")
         return bool(inSum == outSum)
 
     def broadCastBlock(self, newBlock):
@@ -180,7 +182,7 @@ class Node:
             if tempNode != self:
                 tempNode.blockQueue.put(newBlock)
     
-    def addBlockToChain(newBlockLinkedNode : blockLinkedNode):
+    def addBlockToChain(newBlockLinkedNode : BlockLinkedNode):
         self.blockChain.addBlock(newBlockLinkedNode)
 
     def __broadcastTx(self, txBroadcastList):
@@ -189,6 +191,13 @@ class Node:
                 for tx in txBroadcastList:
                     tempNode.globalUnverifiedTxPool.append(tx)
     
+    def getJson(self):
+        jsonOut = {"Blocks": []}
+        for linkedBlockNode in self.blockChain.chain:
+            jsonOut["Blocks"].append(linkedBlockNode.curBlockNode.getJson())
+        return json.dumps(jsonOut, indent=4)
 
-    def writeToFile():
-        return None
+    def writeToFile(self):
+        nodeJson = self.getJson()
+        with open("./nodeOutputs/Node" + str(self.id) + '.json', 'w', encoding='utf-8') as f:
+            f.write(nodeJson)

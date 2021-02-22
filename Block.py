@@ -1,3 +1,4 @@
+import json
 import hashlib
 from Transaction import *
 
@@ -18,6 +19,10 @@ class Block:
         outputList.append(str(self.nonce))
         outputList.append(str(self.proofOfWork))
         return ''.join(outputList)
+
+    def getJson(self):
+        jsonOut = {"tx": self.tx.getJson(), "prev": str(self.prev), "nonce": str(self.nonce), "pow": str(self.proofOfWork)}
+        return jsonOut
 
 class BlockLinkedNode:
     def __init__(self, prevBlockNode, curBlockNode, height):
