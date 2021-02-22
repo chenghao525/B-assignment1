@@ -12,7 +12,7 @@ class TxOutput:
         self.pubkey = pubkey
         
     def isEqual(self, txOutput) :
-        return txOutput.value == self.value and txOutput.pubKey == self.pubkey    
+        return txOutput.value == self.value and txOutput.pubkey == self.pubkey    
     
     
     def __getWithJson(self, jsonObj):

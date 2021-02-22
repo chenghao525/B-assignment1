@@ -38,7 +38,7 @@ class BlockChain:
     def __getGenesisTx(self):
         with open("./transactions/genesisTx.json") as f:
             jsonObj = json.load(f)
-        genesisTx = Transaction(jsonObj=jsonObj[0])
+        genesisTx = Transaction(jsonObj=jsonObj)
 
         return genesisTx
 
