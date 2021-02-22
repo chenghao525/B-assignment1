@@ -9,6 +9,10 @@ from nacl.signing import VerifyKey
 from nacl.encoding import HexEncoder
 from nacl.exceptions import BadSignatureError
 
+logging.basicConfig(filename='main.log', filemode='w', level=logging.INFO, format='%(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger("my-logger")
+logger.handlers = []
+
 class Node:
     def __init__(self, genesisBlock: Block = None, nodeID = None):
         self.id = nodeID
@@ -32,13 +36,44 @@ class Node:
                 nonce += 1
             nonce -= 1
 
-            #TODO: add to the longest chain
+            # add to the longest chain
             newBlock = Block(tx, prevHashing, nonce, blockPOW)
             newBlockLinkedNode = BlockLinkedNode(prevBlockNode, newBlock, prevBlockNode.height + 1)
             self.broadCastBlock(newBlock)
             txBroadcastList = self.addBlockToChain(newBlockLinkedNode)
             if txBroadcastList:
                 self.__broadcastTx(txBroadcastList)
+
+    def addBroadcastBlock(self):
+        if self.blockQueue.empty():
+            return
+        while not self.blockQueue.empty():
+            newBlock = self.blockQueue.get()
+            if not self.__verifyBlockPOW(newBlock):
+                continue
+            if not self.verifyTranscation(newBlock.tx):
+                continue
+            for blockLinkedNode in self.blockChain.chain:
+                if blockLinkedNode.hashing() == newBlock.prev:
+                    foundPrevBlock = blockLinkedNode
+                    break
+            if not foundPrevBlock:
+                log.error("Verification Failed! Prev hash not match for blocks from other node")
+                continue
+            
+            newBlockLinkedNode = BlockLinkedNode(foundPrevBlock, newBlock, foundPrevBlock.height + 1)
+            self.blockChain.addBlock(newBlockLinkedNode)
+            
+
+    def __verifyBlockPOW(self, newBlock):
+        blockInfo = newBlock.tx.toString() + newBlock.prev + str(newBlock.nonce)
+        blockPOW = sha256(blockInfo.encode('utf-8')).hexdigest()
+
+        if str(blockPOW) != newBlock.pow:
+            log.error("In Node " + self.id + " :" + "POW does not match")
+            return false
+        return True
+
 
     def verifyTranscation(self, tx: Transaction) :  # verify a Tx
         """
@@ -135,7 +170,7 @@ class Node:
         #  the sum of the input and output values are equal
         inSum, outSum = 0, 0
         inSum = np.sum([x.output.value for x in tx.inputList])
-        outSum = np.sum([y.value for y in tx.outputList]]
+        outSum = np.sum([y.value for y in tx.outputList]])
         if not inSum == outSum:
             log.error("Node " + self.id + " :" + "Tx Verification Failed! Tx Inputs val sum is not equal to outputs sum")
         return bool(inSum == outSum)

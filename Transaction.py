@@ -10,11 +10,16 @@ class TxOutput:
         self.pubkey = pubkey
         
     def isEqual(self, txOutput) :
-        return txOutput.value == self.value and txOutput.pubKey == self.pubKey        
+        return txOutput.value == self.value and txOutput.pubKey == self.pubKey    
+    
     
     def __getWithJson(self, jsonObj):
         self.value = int(jsonObj['value'])
         self.pubkey = jsonObj['pubkey'].encode('utf-8')
+
+    def toString(self):
+        outputList = [str(self.value), str(self.pubkey)]
+        return ''.join(outputList)
 
 class TxInput:
     def __init__(self, number = None, output : TxOutput = None, inputJsonObj = None):
@@ -30,6 +35,10 @@ class TxInput:
     def __getWithJson(self, jsonObj):
         self.number = jsonObj['number']
         self.output = TxOutput(outputJsonObj=jsonObj['output'])
+    
+    def toString(self):
+        outputList = [str(self.number), str(self.output.value), str(self.output.pubkey)]
+        return ''.join(outputList)
 
 
 class Transaction:
@@ -56,14 +65,15 @@ class Transaction:
             self.outputList.append(TxOutput(outputJsonObj=txOutput))
         
     def hashingTxNumber(self):
-        hashList = []
-        hashList = self.inputList + self.outputList
-        hashList.append(self.sig)
-        return sha256(''.join(itemList).encode('utf-8')).hexdigest()
+        hashList = self.toString()
+        return sha256(''.join(hashList).encode('utf-8')).hexdigest()
 
     def toString(self):
         outputList = [str(self.txNumber)]
-        outputList += self.inputList + self.outputList
+        for tx in self.inputList:
+            outputList.append(tx.toString)
+        for tx in self.outputList:
+            outputList.append(tx.toString)
         outputList.append(self.sig)
         return ''.join(outputList)
 

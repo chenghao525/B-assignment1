@@ -19,7 +19,7 @@ class Block:
         outputList.append(str(self.proofOfWork))
         return ''.join(outputList)
 
-class blockLinkedNode:
+class BlockLinkedNode:
     def __init__(self, prevBlockNode, curBlockNode, height):
         self.prevBlockNode = prevBlockNode
         self.curBlockNode = curBlockNode

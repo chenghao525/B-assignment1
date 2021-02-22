@@ -28,10 +28,9 @@ class Driver:
         for node in self.nodeList:
             node.miningNodeList += self.nodeList
 
-    # TODO: implement node minig functionality
     def nodeMining(self, node):
         while True:
-            #TODO: how to check if no more tx
+            node.addBroadcastBlock()
             if len(self.globalUnverifiedTxPool) == 0 and len(node.globalUnverifiedTxPool) == 0:
                 sleep(1)
                 if len(self.globalUnverifiedTxPool) == 0:

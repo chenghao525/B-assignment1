@@ -58,6 +58,7 @@ class BlockChain:
             forkingNode = self.__retrieveForking(oldTailBlockNode, newBlockNode)
             while tempNode != forkingNode:
                 txBroadcastList.append(tempNode.curBlockNode.tx)
+                self.chain.remove(tempNode)
                 tempNode = tempNode.prevBlockNode
         return txBroadcastList
 
