@@ -53,8 +53,8 @@ class BlockChain:
         """
         txBroadcastList = []
         oldTailBlockNode = self.last_block
-        self.chain.append(newBlockLinkedNode)
-        if newBlockNode.height > self.oldTailBlockNode.height and newBlockNode.prevBlockNode != oldTailBlockNode:
+        self.chain.append(newBlockNode)
+        if newBlockNode.height > oldTailBlockNode.height and newBlockNode.prevBlockNode != oldTailBlockNode:
             tempNode = oldTailBlockNode
             forkingNode = self.__retrieveForking(oldTailBlockNode, newBlockNode)
             while tempNode != forkingNode:

@@ -31,7 +31,7 @@ class Node:
             blockPOW = str(self.miningDifficulty + 1)
             #TODO: Check if prev is the pow
             prevBlockNode = self.blockChain.last_block
-            prevHashing = prevBlockNode.curBlock.hashing()
+            prevHashing = prevBlockNode.curBlockNode.hashing()
             txAndPrevBeforeHash = tx.toString() + prevHashing
             while int(blockPOW, 16) > self.miningDifficulty:
                 blockInfo = txAndPrevBeforeHash + str(nonce)
@@ -72,7 +72,7 @@ class Node:
         blockInfo = newBlock.tx.toString() + newBlock.prev + str(newBlock.nonce)
         blockPOW = sha256(blockInfo.encode('utf-8')).hexdigest()
 
-        if str(blockPOW) != newBlock.pow:
+        if str(blockPOW) != newBlock.proofOfWork:
             logger.error("In Node " + self.id + " :" + "POW does not match")
             return false
         return True
@@ -183,7 +183,7 @@ class Node:
             if tempNode != self:
                 tempNode.blockQueue.put(newBlock)
     
-    def addBlockToChain(newBlockLinkedNode : BlockLinkedNode):
+    def addBlockToChain(self, newBlockLinkedNode : BlockLinkedNode):
         self.blockChain.addBlock(newBlockLinkedNode)
 
     def __broadcastTx(self, txBroadcastList):

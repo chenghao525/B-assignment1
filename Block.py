@@ -14,7 +14,7 @@ class Block:
         return sha256(blockInfo.encode('utf-8')).hexdigest()
  
     def toString(self):
-        outputList = [self.tx]
+        outputList = [self.tx.toString()]
         outputList.append(str(self.prev))
         outputList.append(str(self.nonce))
         outputList.append(str(self.proofOfWork))

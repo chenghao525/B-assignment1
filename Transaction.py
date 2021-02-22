@@ -71,7 +71,7 @@ class Transaction:
         return sha256(''.join(hashList).encode('utf-8')).hexdigest()
 
     def toString(self):
-        resList = [str(self.txNumber)]
+        resList = []
         for tx in self.inputList:
             resList.append(tx.toString())
         for tx in self.outputList:

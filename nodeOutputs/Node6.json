@@ -5,6 +5,24 @@
             "prev": "faab8b0e91fca936ccbf200dd56b6fdf9d10039d43d02fd8a1c05a8a5ddc40e0",
             "nonce": "0",
             "pow": "c8473ae778851fa29db1618dee56de1777e4e28b6993ea722c4a6627e88ae3ef"
+        },
+        {
+            "tx": "null",
+            "prev": "2adea8d24f901121d60666df827bb2319fe38bf5914f058b6fc0b27d1b8a9043",
+            "nonce": "55",
+            "pow": "046edfd6063b9084f18e925547fcbc426f0a1024c179e2786bf01f754b93ce52"
+        },
+        {
+            "tx": "null",
+            "prev": "3f5cbf56951f5c608e7e69d3c8c58710f160a1af779a2014e6a53d8ce7817408",
+            "nonce": "20",
+            "pow": "0527798987c121563c3c1584b3b4413b19b4a8fd3307fdbb4fbfdc0dca535f46"
+        },
+        {
+            "tx": "null",
+            "prev": "9abba76d6077c4866d7a260a978ab08d28d2502eb504c578bb1c8e4a5ac1d457",
+            "nonce": "57",
+            "pow": "01454d4510394451b2acdbe447dfd443875dc0f07c46042b240bb661674c3eed"
         }
     ]
 }
