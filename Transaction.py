@@ -85,13 +85,12 @@ class Transaction:
         resList.append(self.sig)
         return ''.join(resList)
 
-    def getJson(self) -> dict:
+    def getJson(self):
         jsonOut = {"number": self.txNumber}
 
         inputList = []
         for txInput in self.inputList:
-            TxInputObj = {"number": txInput.number,
-                           "output": {"value": txInput.output.value, "pubkey": txInput.output.pubkey.decode('utf-8')}}
+            TxInputObj = {"number": txInput.number, "output": {"value": txInput.output.value, "pubkey": txInput.output.pubkey.decode('utf-8')}}
             inputList.append(TxInputObj)
         jsonOut["input"] = inputList
 
@@ -101,7 +100,7 @@ class Transaction:
             outputList.append(TxOutputObj)
         jsonOut["output"] = outputList
         jsonOut["sig"] = self.sig
-        return json.dumps(jsonOut, indent=4)
+        return jsonOut
 
 
 

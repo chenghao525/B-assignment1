@@ -1,7 +1,7 @@
 # Minimum-Viable-Blockchain
 
 ## Running the program
-To run our program, simply run the `driver.py` by using `python3 driver.py`, then all relevant tests will be executed and files will be generated. Remember to include all required modules mentioned in the `requirement.txt.`
+To run our program, simply run the `driver.py` by using `python3 driver.py`. If want to test different cases, change the file names in __readTxFromFile() function in `driver.py`. Example: with `open("./transactions/xxxxxx.json")` --> replace xxxxxx with file name from transactions folder. Remember to include all required modules mentioned in the `requirement.txt.`
 
 
 ## Code structure overview
@@ -63,6 +63,6 @@ We design 7 main different json files, each of which contains multiple transacti
 
 
 ## Files generated
-- `Node-x.json`
+- `Nodex.json`
     - This json file records the ledger in node X. Each node should have their own copy of the blockchain ledger, so in this task we have 8 nodes and thus 8 node-x.json, each of which is essentially the same, except for those nodes who are inhonest.
 
